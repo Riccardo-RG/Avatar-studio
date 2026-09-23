@@ -1,0 +1,21 @@
+const {chromium} = require(process.env.AVATAR_PLAYWRIGHT || 'playwright');
+const path = require('path');
+(async()=>{
+  const browser = await chromium.launch({executablePath:require('./runtime_config.cjs').chrome,headless:true,args:['--enable-unsafe-swiftshader']});
+  const page = await browser.newPage({viewport:{width:1440,height:1100}});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:8765');
+  await page.waitForFunction(()=>document.querySelector('#voice').options.length>0);
+  await page.getByRole('button',{name:'Carica esempio'}).click();
+  await page.screenshot({path:path.join(__dirname,'output/studio-desktop.png'),fullPage:true});
+  await page.getByRole('button',{name:/Impostazioni/}).click();
+  await page.getByRole('dialog').waitFor();
+  await page.screenshot({path:path.join(__dirname,'output/studio-settings.png')});
+  await page.getByRole('button',{name:'Chiudi',exact:true}).click();
+  await page.setViewportSize({width:390,height:844});
+  await page.screenshot({path:path.join(__dirname,'output/studio-mobile.png'),fullPage:true});
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+  console.log(JSON.stringify({errors,mobileOverflow:overflow}));
+  await browser.close();
+  if(errors.length||overflow)process.exit(1);
+})().catch(e=>{console.error(e);process.exit(1)});

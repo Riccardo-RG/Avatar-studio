@@ -1,0 +1,3 @@
+const {chromium}=require(process.env.AVATAR_PLAYWRIGHT || 'playwright');
+const fs=require('fs'), path=require('path');
+(async()=>{const id=process.argv[2];if(!/^[a-f0-9]{12}$/.test(id))throw Error('Invalid id');const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,args:['--enable-unsafe-swiftshader']});try{const page=await browser.newPage();await page.goto('http://127.0.0.1:8765/render.html?job='+id);await page.waitForFunction(()=>window.renderReady);const png=await page.evaluate(()=>window.renderCover());fs.writeFileSync(path.join(__dirname,'output',id,'cover.png'),Buffer.from(png.split(',')[1],'base64'));}finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});
