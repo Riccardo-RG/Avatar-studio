@@ -1,63 +1,63 @@
 # Avatar Studio
 
-Avatar Studio è un'app personale per macOS che organizza la creazione di video brevi con personaggi virtuali. Unisce copioni, voce, sottotitoli, progetti salvati, generazione o importazione del video, montaggio verticale e preparazione dei file per i social. È un'app locale per un singolo utente, non un servizio SaaS.
+Avatar Studio is a personal macOS app for planning and producing short videos with virtual characters. It brings together scripts, voice, subtitles, saved projects, video generation or import, vertical editing, and social media export packages. It runs locally for one person; it is not a SaaS service.
 
-## Cosa puoi fare
+## What you can do
 
-- Gestire personaggi e progetti, conservando copioni, materiali e revisioni.
-- Preparare copioni da un'idea o da un piano editoriale e produrre voce italiana con sintesi locale.
-- Creare scene locali con avatar 3D, illustrazioni o ritratti narrati, poi aggiungere sottotitoli e montaggio.
-- Usare il flusso **Prepara → genera → importa → rifinisci** per creare un video con HeyGen dal sito e completarlo nello Studio.
-- Esportare MP4 verticali, copertine, sottotitoli e pacchetti di materiali per YouTube, TikTok e Instagram.
-- Organizzare campagne e contenuti; usare gli strumenti locali per la regia e le dirette.
+- Manage characters and projects while keeping scripts, source materials, and revisions together.
+- Draft scripts from an idea or a content plan and create Italian speech locally.
+- Build local scenes with 3D avatars, illustrations, or narrated portraits, then add subtitles and edit the video.
+- Follow the **Prepare → Generate → Import → Finish** workflow: create an avatar video on the HeyGen website, then complete it in Avatar Studio.
+- Export vertical MP4 videos, covers, subtitles, and media packages for YouTube, TikTok, and Instagram.
+- Organize campaigns and content, and use the local tools for directing and live streams.
 
-**Limite importante:** la modalità locale crea personaggi stilizzati o ritratti narrati. Non anima realisticamente un volto umano. Per quel flusso, il progetto supporta la generazione tramite il sito HeyGen; è disponibile anche un'integrazione API facoltativa, separata dall'abbonamento web.
+**Important limitation:** local modes create stylized characters or narrated portraits. They do not realistically animate a human face. For that workflow, you can generate the video on the HeyGen website. An optional API integration is also available and is separate from a HeyGen website subscription.
 
-## Requisiti
+## Requirements
 
-- macOS 13.5 o successivo;
-- Python 3.11, 3.12 o 3.13 installato per macOS;
+- macOS 13.5 or later;
+- Python 3.11, 3.12, or 3.13 for macOS;
 - Google Chrome.
 
-La preparazione installa le dipendenze nella cartella del progetto e scarica i modelli vocali e linguistici necessari. Node e il motore locale dei copioni vengono installati per l'architettura del Mac. Occorre una connessione Internet durante la preparazione.
+The setup installs dependencies inside the project folder and downloads the speech and language models. It also installs Node.js and the local script engine for your Mac's architecture. An Internet connection is required during setup.
 
-## Avvio
+## Start the app
 
-Clona il repository, apri `Prepara Mac.command` e attendi che termini. Poi apri `Avvia Avatar Studio.command`; l'app si apre nel browser e resta in esecuzione sul Mac finché la finestra del terminale è attiva. Per fermarla, premi Ctrl+C in quella finestra.
+Clone the repository, open `Prepara Mac.command`, and wait for setup to finish. Then open `Avvia Avatar Studio.command`. The app opens in your browser and keeps running while its Terminal window stays open. To stop it, press Ctrl+C in that window.
 
-Per avviarla manualmente dopo la preparazione:
+After setup, you can also launch it from Terminal:
 
 ```sh
 .venv/bin/python app.py
 ```
 
-Il server ascolta su `127.0.0.1:8765`, quindi l'interfaccia è raggiungibile dal Mac locale. Non esporre questa porta pubblicamente.
+The server listens on `127.0.0.1:8765`, so it is available on your Mac only. Do not expose this port to the public Internet.
 
-## Flusso per un video realistico
+## Workflow for a realistic avatar video
 
-1. In **Progetti**, scegli un personaggio con un'immagine e prepara copione, voce e sottotitoli.
-2. Scarica i materiali preparati e apri HeyGen dal progetto.
-3. Genera e scarica il video dal sito HeyGen.
-4. Importa l'MP4 nello stesso progetto, controlla taglio, formato e sottotitoli, poi esporta il risultato.
+1. In **Projects**, choose a character with an image and prepare the script, voice, and subtitles.
+2. Download the prepared materials and open HeyGen from the project.
+3. Generate and download the video from the HeyGen website.
+4. Import the MP4 into the same project, check the crop, format, and subtitles, then export the finished video.
 
-HeyGen richiede un account e il suo abbonamento o credito API. L'integrazione API è facoltativa; l'abbonamento al sito non comprende automaticamente l'accesso API.
+HeyGen requires an account and a website subscription or API credits. The API integration is optional; a website subscription does not automatically include API access.
 
-## Servizi e dati
+## Services and data
 
-La sintesi vocale e il motore locale dei copioni non richiedono un account cloud. OpenAI, HeyGen API, ricerca web e collegamenti ai social sono integrazioni facoltative che richiedono credenziali proprie. L'uso di un servizio esterno può inviare al fornitore i dati necessari a quella funzione; controlla i contenuti prima di inviarli.
+Local speech synthesis and the local script engine do not require a cloud account. OpenAI, the HeyGen API, web search, and social platform integrations are optional and require your own credentials. Using an external service may send the data required for that feature to its provider; review content before sending it.
 
-Configurazioni, token, progetti, registrazioni e risultati locali sono esclusi da Git. Non inserire chiavi API nel codice o nei file da pubblicare: configura i segreti solo nell'ambiente locale. I file generati e i modelli scaricati restano nella cartella del progetto.
+Local settings, tokens, projects, recordings, and generated videos are excluded from Git. Do not put API keys in source code or files you plan to publish. Configure credentials only in your local environment. Generated files and downloaded models stay in the project folder.
 
-## Sviluppo
+## Development
 
-Il backend usa la libreria HTTP standard di Python e l'interfaccia usa JavaScript e CSS. Le dipendenze Python sono elencate in `requirements-mac.txt`; il runtime Node è configurato in `package.json` e preparato localmente.
+The backend uses Python's standard HTTP library; the interface uses JavaScript and CSS. Python dependencies are listed in `requirements-mac.txt`. The Node.js runtime is declared in `package.json` and installed locally by the setup script.
 
-Per eseguire la suite di test:
+To run the test suite:
 
 ```sh
 .venv/bin/python -m unittest discover -p 'test_*.py' -v
 ```
 
-## Licenza
+## License
 
-Questo repository al momento non dichiara una licenza complessiva. Le dipendenze e i modelli scaricati possono avere condizioni proprie: consulta i rispettivi avvisi prima di redistribuire l'app o i materiali.
+This repository does not currently declare an overall license. Dependencies and downloaded models may have their own terms; check their notices before redistributing the app or its materials.
